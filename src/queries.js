@@ -2,12 +2,13 @@ import moment from 'moment'
 import firebase from './firebase'
 
 const database = firebase.database()
+const DATE_FORMAT = 'YYYY-MM-DD';
 
-const addUser = async function (id) {
+export const addUser = async function (id) {
   database.ref(`users/${id}`).set(true)
 }
 
-const getUsers = async function () {
+export const getUsers = async function () {
   const userRef = await database.ref('users').once('value')
   const users = userRef.val()
   if (users === null) {
@@ -17,13 +18,13 @@ const getUsers = async function () {
   return Object.keys(users)
 }
 
-const getQuestion = async function (questionId) {
+export const getQuestion = async function (questionId) {
   const questionRef = await database.ref(`questions/${questionId}`).once('value')
   const question = questionRef.val()
   return question
 }
 
-const getQuestionsByUser = async function (userId) {
+export const getQuestionsByUser = async function (userId) {
   const questionRef = await database.ref(`questionsByUser/${userId}`).once('value')
   const questions = questionRef.val()
 
@@ -34,25 +35,39 @@ const getQuestionsByUser = async function (userId) {
   return Object.keys(questions)
 }
 
-const isAnsweredToday = async function (questionId, userId) {
-  const date = moment().format('YYYY-MM-DD')
+export const storeAskedToday = async function (questionId, userId) {
+  const date = moment().format(DATE_FORMAT)
+  return database.ref(`questionAskedToUser/${userId}/${date}`).set({
+    [questionId]: questionId
+  })
+}
+
+export const isAskedToday = async function (questionId, userId) {
+  const date = moment().format(DATE_FORMAT)
+  const answerRef = await database.ref(`questionAskedToUser/${userId}/${date}/${questionId}/`).once('value')
+  const answer = answerRef.val()
+  return !!answer
+}
+
+export const isAnsweredToday = async function (questionId, userId) {
+  const date = moment().format(DATE_FORMAT)
   const answerRef = await database.ref(`answersByUser/${userId}/${date}/${questionId}/`).once('value')
   const answer = answerRef.val()
   return !!answer
 }
 
-const storeAnswerByDate = async function (date, questionId, answer, userId) {
+export const storeAnswerByDate = async function (date, questionId, answer, userId) {
   return database.ref(`answersByUser/${userId}/${date}`).set({
     [questionId]: answer
   })
 }
 
-const storeAnswerByToday = async function (questionId, answer, userId) {
-  const date = moment().format('YYYY-MM-DD')
+export const storeAnswerByToday = async function (questionId, answer, userId) {
+  const date = moment().format(DATE_FORMAT)
   storeAnswerByDate(date, questionId, answer, userId)
 }
 
-const addQuestionByUser = async function (userId, question, hours, minutes) {
+export const addQuestionByUser = async function (userId, question, hours, minutes) {
   const key = database.ref(`questions`)
     .push({
       question,
@@ -62,15 +77,4 @@ const addQuestionByUser = async function (userId, question, hours, minutes) {
 
   database.ref(`questionsByUser/${userId}`)
     .set({ [key]: true })
-}
-
-module.exports = {
-  storeAnswerByDate,
-  storeAnswerByToday,
-  isAnsweredToday,
-  getQuestionsByUser,
-  getQuestion,
-  getUsers,
-  addQuestionByUser,
-  addUser
 }

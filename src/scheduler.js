@@ -1,6 +1,7 @@
 import moment from 'moment'
 import {
-  isAnsweredToday,
+  isAskedToday,
+  storeAskedToday,
   getQuestionsByUser,
   getQuestion,
   getUsers
@@ -17,7 +18,7 @@ const scheduler = async function (callback) {
     // fetch questions for each user
     const questions = await getQuestionsByUser(userId) || []
     questions.forEach(async (questionId) => {
-      if (!(await isAnsweredToday(questionId))) {
+      if (!(await isAskedToday(questionId, userId))) {
         const {
           hours,
           minutes,
@@ -28,6 +29,7 @@ const scheduler = async function (callback) {
         if (timeDiff >= 0) {
           callback(userId, questionId, question)
         }
+        storeAskedToday(questionId, userId)
       }
     })
   })
