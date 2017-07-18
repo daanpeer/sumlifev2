@@ -2,7 +2,8 @@ import {
   askQuestions as aq,
   webhook as wh,
   setwebhook as swh
-} from 'src/functions'
+} from './src/functions'
+
 import bot from './src/bot'
 
 export const webhook = wh(bot)

@@ -1,8 +1,5 @@
-const { Markup } = require('telegraf')
-
-const {
-  scheduler
-} = require('./scheduler')
+import { Markup } from 'telegraf'
+import { scheduler } from '../scheduler'
 
 const answers = [
   '😭',

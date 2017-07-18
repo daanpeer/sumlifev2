@@ -4,6 +4,7 @@ jspm_packages
 env.yml
 dist/
 serverless-es7/
+.webpack
 
 # Serverless directories
 .serverless
