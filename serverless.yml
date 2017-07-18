@@ -1,0 +1,32 @@
+service: sumlife
+plugins:
+  - serverless-webpack
+
+custom:
+  webpackIncludeModules: true
+
+provider:
+  name: aws
+  runtime: nodejs6.10
+  stage: dev
+  region: eu-west-1
+
+functions:
+  sumlife-set-webhook:
+    handler: index.webhook
+  sumlife-ask-questions:
+    handler: index.askQuestions 
+    environment: ${file(./env.yml)}
+    events:
+      - schedule: rate(30 minutes)
+  sumlife-webhook:
+    handler: index.webhook
+    environment: ${file(./env.yml)}
+    events:
+      - http:
+          path: webhook/{token}
+          method: post
+          request: 
+            parameters: 
+              paths: 
+                token: true

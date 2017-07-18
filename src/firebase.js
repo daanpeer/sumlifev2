@@ -1,4 +1,4 @@
-const firebase = require('firebase')
+import firebase from 'firebase'
 
 const {
   FIREBASE_API_KEY,
@@ -20,4 +20,4 @@ const config = {
 
 firebase.initializeApp(config)
 
-module.exports = firebase
+export default firebase
