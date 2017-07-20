@@ -1,5 +1,5 @@
 import { Markup } from 'telegraf'
-import { scheduler } from '../scheduler'
+import scheduler from '../scheduler'
 
 const answers = [
   '😭',
@@ -10,25 +10,26 @@ const answers = [
   '😄'
 ]
 
-const askQuestions = (bot) => async function (event, context) {
+const askQuestions = (bot) => async function (event, context, callback) {
   context.callbackWaitsForEmptyEventLoop = false
+
   try {
-    await scheduler((userId, questionId, question) => {
+    const scheduledQuestions = await scheduler()
+    for (const { userId, questionId, question } of scheduledQuestions) {
       const markup = new Markup()
       const buttons = answers.map((emoji, index) => {
-        // todo json encode here
         return markup.callbackButton(emoji, `answer/${index}:${questionId}:${userId}`)
       })
 
-      bot.telegram.sendMessage(userId, question,
+      await bot.telegram.sendMessage(userId, question,
         markup.inlineKeyboard(buttons).extra()
       )
-    })
+    }
   } catch (e) {
     console.log('error', e)
   }
 
-  console.log('bot reacted')
+  callback(null, 'Done!')
 }
 
 export default askQuestions

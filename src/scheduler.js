@@ -11,28 +11,42 @@ const scheduler = async function (callback) {
   const users = await getUsers()
 
   if (users === null) {
-    return
+    throw Error('No users to query')
   }
 
-  await users.forEach(async (userId) => {
-    // fetch questions for each user
-    const questions = await getQuestionsByUser(userId) || []
-    questions.forEach(async (questionId) => {
-      if (!(await isAskedToday(questionId, userId))) {
-        const {
-          hours,
-          minutes,
-          question
-        } = await getQuestion(questionId)
-        const schedule = moment({ hours, minutes })
-        const timeDiff = schedule.diff(moment(), 'seconds')
-        if (timeDiff >= 0) {
-          callback(userId, questionId, question)
-        }
-        storeAskedToday(questionId, userId)
+  const scheduled = []
+  for (const userId of users) {
+    const questions = await getQuestionsByUser(userId)
+    if (questions === null) {
+      continue
+    }
+
+    for (const questionId of questions) {
+      if (await isAskedToday(questionId, userId)) {
+        continue
       }
-    })
-  })
+
+      const {
+        hours,
+        minutes,
+        question
+      } = await getQuestion(questionId)
+
+      const schedule = moment({ hours, minutes })
+      const timeDiff = schedule.diff(moment(), 'seconds')
+
+      if (timeDiff >= 0) {
+        await storeAskedToday(questionId, userId)
+        scheduled.push({ userId, questionId, question })
+      }
+    }
+  }
+
+  if (scheduled.length === 0) {
+    throw Error('Nothing to schedule')
+  }
+
+  return scheduled
 }
 
 export default scheduler

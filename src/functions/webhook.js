@@ -20,7 +20,8 @@ const webhook = (bot) => async function (event, context, callback) {
     })
   }
 
-  bot.handleUpdate(JSON.parse(event.body))
+  await bot.handleUpdate(JSON.parse(event.body))
+
   return callback(null, {
     statusCode: 200,
     body: JSON.stringify({ message: 'Webhook response' })

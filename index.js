@@ -7,5 +7,5 @@ import {
 import bot from './src/bot'
 
 export const webhook = wh(bot)
-export const setwebhook = swh(bot)
+export const setWebhook = swh(bot)
 export const askQuestions = aq(bot)
