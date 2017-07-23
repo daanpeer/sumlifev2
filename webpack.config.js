@@ -1,9 +1,12 @@
-process.env.NODE_ENV = 'production'
+const path = require('path')
+const { RUN_ENV } = process.env
 
-module.exports = {
+const config = {
   entry: [
-    './index.js'
+    RUN_ENV === 'local' ? './local.js' : './index.js'
   ],
+
+  devtool: 'source-map',
 
   target: 'node',
   module: {
@@ -15,3 +18,12 @@ module.exports = {
     }]
   }
 }
+
+if (RUN_ENV === 'local') {
+  config.output = {
+    filename: 'build.js',
+    path: path.join(__dirname, './dist')
+  }
+}
+
+module.exports = config

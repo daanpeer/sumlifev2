@@ -1,23 +1,30 @@
 import Telegraf from 'telegraf'
+
+import * as processCommand from './commands/processCommand'
+
 import {
-  storeAnswerByToday,
-  isAnsweredToday,
-  addUser
-} from './queries'
+  listQuestions,
+  addQuestion,
+  questionActions,
+  answer,
+  editQuestion,
+  deleteConfirm,
+  deleteQuestion,
+  editTime,
+  start
+} from './interactions'
 
 const bot = new Telegraf(process.env.BOT_TOKEN)
-
-bot.action(/(answer)\/(.+)/, async (ctx) => {
-  const [answer, questionId, userId] = ctx.match[2].split(':')
-  if (!(await isAnsweredToday(questionId, userId))) {
-    await storeAnswerByToday(questionId, answer, userId)
-    ctx.reply('I\'ve registered your answer')
-  }
-})
-
-bot.command('start', ({ from, reply }) => {
-  addUser(from.id)
-  return reply('Welcome!')
-})
+bot.on('text', processCommand.checkCommand, processCommand.processCommand)
+bot.action(/(answer)\/(.+)/, answer)
+bot.action(/(editQuestion)\/(.+)/, editQuestion)
+bot.action(/(deleteConfirm)\/(.+)/, deleteConfirm, listQuestions)
+bot.action(/(deleteQuestion)\/(.+)/, deleteQuestion)
+bot.action(/(editTime)\/(.+)/, editTime)
+bot.action(/(questionActions)\/(.+)/, questionActions)
+bot.action(/addQuestion/, addQuestion)
+bot.command('list_questions', listQuestions)
+bot.command('add_question', addQuestion)
+bot.command('start', start)
 
 export default bot

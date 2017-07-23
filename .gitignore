@@ -5,6 +5,6 @@ env.yml
 dist/
 serverless-es7/
 .webpack
-
+.env
 # Serverless directories
 .serverless

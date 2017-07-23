@@ -21,19 +21,19 @@ const scheduler = async function (callback) {
       continue
     }
 
-    for (const questionId of questions) {
+    for (const questionId of Object.keys(questions)) {
       if (await isAskedToday(questionId, userId)) {
         continue
       }
 
+      const question = await getQuestion(questionId)
       const {
         hours,
-        minutes,
-        question
-      } = await getQuestion(questionId)
+        minutes
+      } = questions[questionId]
 
       const schedule = moment({ hours, minutes })
-      const timeDiff = schedule.diff(moment(), 'seconds')
+      const timeDiff = moment().diff(schedule, 'seconds')
 
       if (timeDiff >= 0) {
         await storeAskedToday(questionId, userId)
