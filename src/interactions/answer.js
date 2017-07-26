@@ -9,6 +9,7 @@ const answer = async (ctx) => {
     await storeAnswerByToday(questionId, answer, userId)
     ctx.reply('I\'ve registered your answer')
   }
+  ctx.reply('You\'ve already answered this question')
 }
 
 export default answer

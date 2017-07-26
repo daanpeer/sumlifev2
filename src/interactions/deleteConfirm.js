@@ -5,7 +5,7 @@ import {
 const deleteConfirm = async (ctx, next) => {
   const questionId = ctx.match[2]
   await removeQuestionByUser(ctx.from.id, questionId)
-  ctx.reply('Okay the question has been deleted!')
+  ctx.telegram.sendMessage(ctx.from.id, 'Okay the question has been deleted!')
   next()
 }
 

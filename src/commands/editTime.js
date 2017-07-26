@@ -11,12 +11,12 @@ const editTime = async (cmd, ctx, next) => {
 
       const [ hours, minutes ] = message.split(':')
       if (!hours || !minutes || hours > 24 || hours < 0 || minutes > 59 || minutes < 0) {
-        return ctx.reply('Please give a valid 24 hour format time')
+        return ctx.telegram.sendMessage(ctx.from.id, 'Please give a valid 24 hour format time')
       }
 
       try {
         await updateQuestionTime(ctx.from.id, cmd.state.questionId, hours, minutes)
-        ctx.reply('The time has been successfully updated :)')
+        await ctx.telegram.sendMessage(ctx.from.id, 'The time has been successfully updated :)')
       } catch (e) {
         console.log('oops error', e)
       }

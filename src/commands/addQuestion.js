@@ -12,8 +12,9 @@ const addQuestion = async (cmd, ctx, next) => {
         step: 2,
         question: message
       })
-      await ctx.reply('Okay I registered your question')
-      await ctx.reply('Now please give a time in 24 hour format (12:00)')
+
+      await ctx.telegram.sendMessage(ctx.from.id, 'Okay I registered your question')
+      await ctx.telegram.sendMessage(ctx.from.id, 'Now please give a time in 24 hour format (12:00)')
 
       return next()
     }
@@ -24,7 +25,7 @@ const addQuestion = async (cmd, ctx, next) => {
       }
 
       await addQuestionByUser(ctx.from.id, cmd.state.question, hours, minutes)
-      ctx.reply('Your question has been stored successfully :)')
+      ctx.telegram.sendMessage(ctx.from.id, 'Your question has been stored successfully :)')
 
       await clearCommandState()
       return next()

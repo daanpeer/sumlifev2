@@ -1,4 +1,4 @@
-import askScheduledQuestions from './askScheduledQuestions'
+import askScheduledQuestions from '../askScheduledQuestions'
 
 const askQuestions = (bot) => async function (event, context, callback) {
   context.callbackWaitsForEmptyEventLoop = false
