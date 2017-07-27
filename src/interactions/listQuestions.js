@@ -9,7 +9,7 @@ const listQuestions = async (ctx, next) => {
   const questions = await getQuestionsByUser(userId)
 
   if (questions === null) {
-    return ctx.reply('There are no question do you want to add new one?',
+    return ctx.reply('There are no questions do you want to add new one?',
       Extra.HTML().markup((m) =>
         m.inlineKeyboard([
           m.callbackButton('🆕 Add a new question', 'addQuestion')
