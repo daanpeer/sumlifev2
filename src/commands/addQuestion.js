@@ -23,13 +23,18 @@ const addQuestion = async (cmd, ctx, next) => {
       return next()
     }
     case 2: {
+      const regex = new RegExp(/^[0-9]{2}:[0-9]{2}$/)
+      if (!regex.test(message)) {
+        return ctx.reply('Please give a valid 24 hour format time')
+      }
+
       const [ hours, minutes ] = message.split(':')
       if (!hours || !minutes || hours > 24 || hours < 0 || minutes > 59 || minutes < 0) {
         return ctx.reply('Please give a valid 24 hour format time')
       }
 
       await addQuestionByUser(ctx.from.id, cmd.state.question, hours, minutes)
-      ctx.reply('Your question has been stored successfully :)')
+      await ctx.reply('Your question has been stored successfully :)')
 
       await clearCommandState()
       return next()
