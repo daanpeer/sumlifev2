@@ -20,7 +20,13 @@ const webhook = (bot) => async function (event, context, callback) {
     })
   }
 
-  await bot.handleUpdate(JSON.parse(event.body))
+  try {
+    await bot.handleUpdate(JSON.parse(event.body))
+  } catch (err) {
+    console.log('noes error processing update', err)
+  }
+
+  console.log('yay callback')
 
   return callback(null, {
     statusCode: 200,

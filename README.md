@@ -9,3 +9,4 @@
 
 list_questions - List the questions
 add_question - Add a new question
+cancel - Cancel command

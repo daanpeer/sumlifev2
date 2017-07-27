@@ -11,11 +11,11 @@ import {
   deleteConfirm,
   deleteQuestion,
   editTime,
-  start
+  start,
+  cancel
 } from './interactions'
 
 const bot = new Telegraf(process.env.BOT_TOKEN)
-bot.on('text', processCommand.checkCommand, processCommand.processCommand)
 bot.action(/(answer)\/(.+)/, answer)
 bot.action(/(editQuestion)\/(.+)/, editQuestion)
 bot.action(/(deleteConfirm)\/(.+)/, deleteConfirm, listQuestions)
@@ -25,6 +25,8 @@ bot.action(/(questionActions)\/(.+)/, questionActions)
 bot.action(/addQuestion/, addQuestion)
 bot.command('list_questions', listQuestions)
 bot.command('add_question', addQuestion)
+bot.command('cancel', cancel)
 bot.command('start', start)
+bot.on('message', processCommand.checkCommand, processCommand.processCommand)
 
 export default bot

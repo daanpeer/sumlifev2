@@ -11,9 +11,8 @@ const editQuestion = async (cmd, ctx, next) => {
 
       try {
         await updateQuestion(ctx.from.id, cmd.state.questionId, message)
-        await ctx.telegram.sendMessage(ctx.from.id, 'Okay i\'ve updated your question!')
+        await ctx.reply('Okay i\'ve updated your question!')
       } catch (e) {
-        // await ctx.reply('Oops something went wrong!')
         console.log('error', e)
       }
 

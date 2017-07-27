@@ -7,6 +7,7 @@ import editTime from './editTime'
 import listQuestions from './listQuestions'
 import questionActions from './questionActions'
 import start from './start'
+import cancel from './cancel'
 
 export {
   listQuestions,
@@ -17,5 +18,6 @@ export {
   answer,
   editTime,
   deleteQuestion,
-  deleteConfirm
+  deleteConfirm,
+  cancel,
 }

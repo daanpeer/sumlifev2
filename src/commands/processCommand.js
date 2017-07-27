@@ -29,5 +29,5 @@ export const checkCommand = async (ctx, next) => {
     return next()
   }
   ctx.command = command
-  next()
+  return next()
 }
