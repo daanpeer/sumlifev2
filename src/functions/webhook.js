@@ -26,8 +26,6 @@ const webhook = (bot) => async function (event, context, callback) {
     console.log('noes error processing update', err)
   }
 
-  console.log('yay callback')
-
   return callback(null, {
     statusCode: 200,
     body: JSON.stringify({ message: 'Webhook response' })
