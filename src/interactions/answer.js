@@ -3,11 +3,16 @@ import {
   isAnsweredToday
 } from '../queries'
 
+import {
+  emoji
+} from './answer'
+
 const answer = async (ctx) => {
   const [answer, questionId, userId] = ctx.match[2].split(':')
   if (!(await isAnsweredToday(questionId, userId))) {
     await storeAnswerByToday(questionId, answer, userId)
-    return ctx.reply('I\'ve registered your answer')
+    await ctx.reply('I\'ve registered your answer')
+    return ctx.reply(`You answered ${emoji[answer]}`)
   }
   return ctx.reply('You\'ve already answered this question')
 }

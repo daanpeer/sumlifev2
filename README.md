@@ -1,6 +1,6 @@
 ## TODO
-- [] use firebase admin credentials
-- [] create graphs
+- [ ] use firebase admin credentials
+- [ ] create graphs
 - [ ] Add cancel command
 - [x] Store when the question was asked (and don't re-ask)
 - [x] Restructure code
