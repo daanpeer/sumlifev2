@@ -32,7 +32,9 @@ const scheduler = async function (callback) {
         minutes
       } = questions[questionId]
 
-      const schedule = moment({ hours, minutes }).utc()
+      const schedule = moment().utc()
+        .hours(hours)
+        .minutes(minutes)
 
       const timeDiff = moment()
         .utc()
