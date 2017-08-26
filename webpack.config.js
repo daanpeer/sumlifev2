@@ -1,5 +1,6 @@
 const path = require('path')
 const { RUN_ENV } = process.env
+const nodeExternals = require('webpack-node-externals');
 
 const config = {
   entry: [
@@ -7,7 +8,7 @@ const config = {
   ],
 
   devtool: 'source-map',
-
+  externals: [nodeExternals()],
   target: 'node',
   module: {
     rules: [{
