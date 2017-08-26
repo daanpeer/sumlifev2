@@ -9,3 +9,4 @@ serverless-es7/
 # Serverless directories
 .serverless
 firebase-credentials*
+!firebase-credentials.prod.json.enc
