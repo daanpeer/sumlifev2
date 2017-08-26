@@ -8,3 +8,4 @@ serverless-es7/
 .env
 # Serverless directories
 .serverless
+firebase-credentials*

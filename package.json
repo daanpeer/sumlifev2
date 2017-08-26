@@ -28,7 +28,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "RUN_ENV=local webpack",
     "build:watch": "npm run build -- --watch",
-    "start:dev": "npm run build && concurrently \"npm run build:watch\" \"nodemon ./dist/build.js\""
+    "start:dev": "npm run build && concurrently \"npm run build:watch\" \"RUN_ENV=local nodemon ./dist/build.js\""
   },
   "repository": {
     "type": "git",
