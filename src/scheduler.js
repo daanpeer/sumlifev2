@@ -32,8 +32,12 @@ const scheduler = async function (callback) {
         minutes
       } = questions[questionId]
 
-      const schedule = moment({ hours, minutes })
-      const timeDiff = moment().diff(schedule, 'seconds')
+      const schedule = moment({ hours, minutes }).utc()
+
+      const timeDiff = moment()
+        .utc()
+        .add(2, 'hour')
+        .diff(schedule, 'seconds')
 
       if (timeDiff >= 0) {
         await storeAskedToday(questionId, userId)
