@@ -1,12 +1,11 @@
-// import firebase from 'firebase'
 import admin from 'firebase-admin'
 
-let serviceAccount
-if (process.env.RUN_ENV === 'local') {
-  serviceAccount = require('../firebase-credentials.local.json')
-} else {
-  serviceAccount = require('../firebase-credentials.prod.json')
-}
+let serviceAccount = require('../firebase-credentials.prod.json')
+// if (process.env.RUN_ENV === 'local') {
+  // serviceAccount = require('../firebase-credentials.local.json')
+// } else {
+  // serviceAccount = require('../firebase-credentials.prod.json')
+// }
 
 const firebase = admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
