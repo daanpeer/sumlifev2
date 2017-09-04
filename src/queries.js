@@ -160,10 +160,39 @@ export const updateQuestion = async (userId, oldQuestionId, q) => {
   return removeQuestionByUser(userId, oldQuestionId)
 }
 
-export const storeTokenForUser = async (userId, token) => {
-  database.ref(`/userByToken/${token}`)
+export const storeActiveTokenByUser = async (userId, token) => {
+  database.ref(`activeTokenByUser`)
     .update({
-      userId
+      [userId]: token
+    })
+}
+
+export const getActiveTokenByUser = async (userId) => {
+  const activeToken = await database.ref(`activeTokenByUser/${userId}`).once('value')
+  if (activeToken === null) {
+    return null
+  }
+
+  return activeToken.val()
+}
+
+export const storeToken = async (userId, token) => {
+  storeTokenForUser(userId, token)
+  storeActiveTokenByUser(userId, token)
+}
+
+export const storeTokenForUser = async (userId, token) => {
+  const activeToken = await getActiveTokenByUser(userId)
+  if (activeToken !== null) {
+    database.ref(`/userByToken`)
+      .set({
+        [activeToken]: null
+      })
+  }
+
+  database.ref(`/userByToken`)
+    .update({
+      [token]: userId
     })
 }
 
