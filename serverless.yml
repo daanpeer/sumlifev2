@@ -22,6 +22,17 @@ functions:
     environment: ${file(./env.yml)}
     events:
       - schedule: rate(30 minutes)
+  sumlife-api:
+    handler: index.api
+    environment: ${file(./env.yml)}
+    events:
+      - http:
+          path: api/{token}
+          method: post
+          request: 
+            parameters: 
+              paths: 
+                token: true
   sumlife-webhook:
     handler: index.webhook
     environment: ${file(./env.yml)}

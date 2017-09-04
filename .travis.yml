@@ -7,6 +7,7 @@ before_script:
 - sed -i "s#\$FIREBASE_DATABASE_URL#$FIREBASE_DATABASE_URL#g" env.yml
 - sed -i "s#\$BOT_TOKEN#$BOT_TOKEN#g" env.yml
 - sed -i "s#\$BOT_WEBHOOK_URL#$BOT_WEBHOOK_URL#g" env.yml
+- sed -i "s#\$API_URL#$API_URL#g" env.yml
 script:
 - RUN_ENV=lambda serverless deploy
 cache:

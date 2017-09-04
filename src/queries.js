@@ -65,17 +65,6 @@ export const isAnsweredToday = async (questionId, userId) => {
   return !!answer
 }
 
-export const storeAnswerByDate = async (date, questionId, answer, userId) => {
-  return database.ref(`answersByUser/${userId}/${date}`).update({
-    [questionId]: answer
-  })
-}
-
-export const storeAnswerByToday = async (questionId, answer, userId) => {
-  const date = moment().format(DATE_FORMAT)
-  storeAnswerByDate(date, questionId, answer, userId)
-}
-
 export const addQuestionByUser = async (userId, question, hours, minutes) => {
   const key = crypto.createHash('md5').update(question).digest('hex')
 
@@ -126,6 +115,15 @@ export const getAnswersByUser = async (userId) => {
   return database.ref(`answersByUser/${userId}`).once('value')
 }
 
+export const getAnswersByQuestion = async (userId) => {
+  const answers = await database.ref(`answersByQuestion/${userId}`).once('value')
+  if (answers === null) {
+    return null
+  }
+
+  return answers.val()
+}
+
 export const moveAnswers = async (userId, oldQuestionId, questionId) => {
   const answersByUser = getAnswersByUser(userId)
   const dates = Object.keys(answersByUser)
@@ -133,7 +131,12 @@ export const moveAnswers = async (userId, oldQuestionId, questionId) => {
   // copy all answers to new question
   for (const date of dates) {
     const answer = getAnswer(date, userId, oldQuestionId)
-    await storeAnswerByDate(date, questionId, answer, userId)
+    await storeAnswer({
+      userId,
+      questionId,
+      date,
+      answer
+    })
   }
 }
 
@@ -155,4 +158,60 @@ export const updateQuestion = async (userId, oldQuestionId, q) => {
   const questionId = await addQuestionByUser(userId, q, hours, minutes)
   await moveAnswers(userId, oldQuestionId, questionId)
   return removeQuestionByUser(userId, oldQuestionId)
+}
+
+export const storeTokenForUser = async (userId, token) => {
+  database.ref(`/userByToken/${token}`)
+    .update({
+      userId
+    })
+}
+
+export const getUserIdByToken = async (token) => {
+  const user = await database.ref(`/userByToken/${token}`).once('value')
+  if (user === null) {
+    return null
+  }
+  return user.userId
+}
+
+export const storeAnswerByDate = async ({ userId, questionId, date, answer }) => {
+  return database.ref(`answersByUser/${userId}/${date}`).update({
+    [questionId]: answer
+  })
+}
+
+export const storeAnswerByQuestion = async ({ userId, questionId, date, answer }) => {
+  database.ref(`/answersByQuestion/${userId}/${questionId}`)
+    .push({
+      date,
+      answer
+    })
+}
+
+export const storeAnswer = async ({ userId, questionId, date, answer }) => {
+  const args = { userId, questionId, date, answer }
+  storeAnswerByQuestion(args)
+  storeAnswerByDate(args)
+  // storeAnswerByWeek(args)
+  // storeAnswerByMonth()
+}
+
+export const exportUserData = async (userId) => {
+  // now lets fetch the answers by user
+  const answers = await getAnswersByQuestion(userId)
+  if (answers === null) {
+    return
+  }
+
+  const response = []
+  for (const questionId of Object.keys(answers)) {
+    const question = await getQuestion(questionId)
+    response.push({
+      question,
+      answers: Object.entries(answers[questionId])
+        .reduce((acc, next) => acc.concat([next[1]]), [])
+    })
+  }
+  return response
 }

@@ -12,7 +12,8 @@ import {
   deleteQuestion,
   editTime,
   start,
-  cancel
+  cancel,
+  showApiUrl
 } from './interactions'
 
 import { timedReply } from './middleware'
@@ -31,6 +32,7 @@ bot.command('add_question', addQuestion)
 bot.command('cancel', cancel)
 bot.command('introduction', start, listQuestions)
 bot.command('start', start, listQuestions)
+bot.command('show_api_url', showApiUrl)
 bot.on('message', processCommand.checkCommand, processCommand.processCommand)
 
 export default bot
