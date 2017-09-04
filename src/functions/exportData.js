@@ -1,7 +1,7 @@
 import {
   getUserIdByToken,
   exportUserData
-} from './queries'
+} from '../queries'
 
 const exportData = async (event, context, callback) => {
   const { token } = event.pathParameters
