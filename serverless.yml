@@ -28,7 +28,7 @@ functions:
     events:
       - http:
           path: api/{token}
-          method: post
+          method: get 
           request: 
             parameters: 
               paths: 
