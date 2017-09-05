@@ -3,7 +3,7 @@ import {
   exportUserData
 } from '../queries'
 
-const exportData = async (event, context, callback) => {
+const exportData = () => async (event, context, callback) => {
   context.callbackWaitsForEmptyEventLoop = false
 
   const { token } = event.pathParameters
