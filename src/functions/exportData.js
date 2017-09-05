@@ -4,6 +4,8 @@ import {
 } from '../queries'
 
 const exportData = async (event, context, callback) => {
+  context.callbackWaitsForEmptyEventLoop = false
+
   const { token } = event.pathParameters
   const userId = await getUserIdByToken(token)
   if (userId === null) {
