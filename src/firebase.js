@@ -1,5 +1,6 @@
 import admin from 'firebase-admin'
 
+// @todo switch this 
 let serviceAccount = require('../firebase-credentials.prod.json')
 
 const firebase = admin.initializeApp({

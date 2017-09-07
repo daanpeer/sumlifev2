@@ -197,11 +197,11 @@ export const storeTokenForUser = async (userId, token) => {
 }
 
 export const getUserIdByToken = async (token) => {
-  const user = await database.ref(`/userByToken/${token}`).once('value')
-  if (user === null) {
+  const userId = await database.ref(`/userByToken/${token}`).once('value')
+  if (userId === null) {
     return null
   }
-  return user.userId
+  return userId
 }
 
 export const storeAnswerByDate = async ({ userId, questionId, date, answer }) => {
