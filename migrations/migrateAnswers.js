@@ -25,6 +25,7 @@ const main = async () => {
       }
     }
   }
+  console.log('Done')
 }
 
 main()
