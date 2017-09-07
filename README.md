@@ -15,4 +15,4 @@ add_question - Add a new question
 cancel - Cancel command
 start - Start
 introduction - Show the introduction again
-export_data - Generate an API endpoint
+show_api_url - Generate an API endpoint
