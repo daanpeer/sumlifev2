@@ -201,7 +201,7 @@ export const getUserIdByToken = async (token) => {
   if (userId === null) {
     return null
   }
-  return userId
+  return userId.val()
 }
 
 export const storeAnswerByDate = async ({ userId, questionId, date, answer }) => {
