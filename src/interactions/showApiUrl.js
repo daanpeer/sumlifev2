@@ -9,7 +9,7 @@ const showApiUrl = async (ctx) => {
     .update(Math.random().toString())
     .digest('hex')
 
-  storeToken(ctx.from.id, hash)
+  await storeToken(ctx.from.id, hash)
 
   ctx.reply(`${process.env.API_URL}${hash}`)
 }

@@ -112,15 +112,19 @@ export const getAnswer = async (date, userId, questionId) => {
 }
 
 export const getAnswersByUser = async (userId) => {
-  return database.ref(`answersByUser/${userId}`).once('value')
-}
-
-export const getAnswersByQuestion = async (userId) => {
-  const answers = await database.ref(`answersByQuestion/${userId}`).once('value')
+  const answers = await database.ref(`answersByUser/${userId}`).once('value')
   if (answers === null) {
     return null
   }
 
+  return answers.val()
+}
+
+export const getAnswersByQuestion = async (userId, questionId) => {
+  const answers = await database.ref(`answersByQuestion/${userId}/${questionId}`).once('value')
+  if (answers === null) {
+    return null
+  }
   return answers.val()
 }
 
@@ -233,17 +237,18 @@ export const exportUserData = async (userId) => {
     return
   }
 
-  const answers = await getAnswersByUser(userId);
-  if (answers === null) {
-    return
-  }
-
   const response = []
   for (const questionId of Object.keys(questions)) {
+    const answers = await getAnswersByQuestion(userId, questionId)
     const question = await getQuestion(questionId)
+
+    if (!answers) {
+      continue
+    }
+
     response.push({
       question,
-      answers: Object.entries(answers[questionId])
+      answers: Object.entries(answers)
         .reduce((acc, next) => acc.concat([next[1]]), [])
     })
   }
