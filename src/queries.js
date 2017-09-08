@@ -228,13 +228,18 @@ export const storeAnswer = async ({ userId, questionId, date, answer }) => {
 
 export const exportUserData = async (userId) => {
   // now lets fetch the answers by user
-  const answers = await getAnswersByQuestion(userId)
+  const questions = await getQuestionsByUser(userId)
+  if (questions === null) {
+    return
+  }
+
+  const answers = await getAnswersByUser(userId);
   if (answers === null) {
     return
   }
 
   const response = []
-  for (const questionId of Object.keys(answers)) {
+  for (const questionId of Object.keys(questions)) {
     const question = await getQuestion(questionId)
     response.push({
       question,
