@@ -129,12 +129,12 @@ export const getAnswersByQuestion = async (userId, questionId) => {
 }
 
 export const moveAnswers = async (userId, oldQuestionId, questionId) => {
-  const answersByUser = getAnswersByUser(userId)
+  const answersByUser = await getAnswersByUser(userId)
   const dates = Object.keys(answersByUser)
 
   // copy all answers to new question
   for (const date of dates) {
-    const answer = getAnswer(date, userId, oldQuestionId)
+    const answer = await getAnswer(date, userId, oldQuestionId)
     await storeAnswer({
       userId,
       questionId,
