@@ -181,20 +181,20 @@ export const getActiveTokenByUser = async (userId) => {
 }
 
 export const storeToken = async (userId, token) => {
-  storeTokenForUser(userId, token)
-  storeActiveTokenByUser(userId, token)
+  await storeTokenForUser(userId, token)
+  await storeActiveTokenByUser(userId, token)
 }
 
 export const storeTokenForUser = async (userId, token) => {
   const activeToken = await getActiveTokenByUser(userId)
   if (activeToken !== null) {
-    database.ref(`/userByToken`)
+    await database.ref(`/userByToken`)
       .set({
         [activeToken]: null
       })
   }
 
-  database.ref(`/userByToken`)
+  await database.ref(`/userByToken`)
     .push({
       [token]: userId
     })
