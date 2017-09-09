@@ -11,7 +11,7 @@ const showApiUrl = async (ctx) => {
 
   await storeToken(ctx.from.id, hash)
 
-  ctx.reply(`${process.env.API_URL}${hash}`)
+  return ctx.reply(`${process.env.API_URL}${hash}`)
 }
 
 export default showApiUrl
