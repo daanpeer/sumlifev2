@@ -166,7 +166,7 @@ export const updateQuestion = async (userId, oldQuestionId, q) => {
 
 export const storeActiveTokenByUser = async (userId, token) => {
   database.ref(`activeTokenByUser`)
-    .push({
+    .update({
       [userId]: token
     })
 }
@@ -189,13 +189,13 @@ export const storeTokenForUser = async (userId, token) => {
   const activeToken = await getActiveTokenByUser(userId)
   if (activeToken !== null) {
     await database.ref(`/userByToken`)
-      .set({
+      .update({
         [activeToken]: null
       })
   }
 
   await database.ref(`/userByToken`)
-    .push({
+    .update({
       [token]: userId
     })
 }
