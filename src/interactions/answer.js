@@ -5,7 +5,7 @@ import {
 
 import {
   emoji
-} from './answer'
+} from '../answers'
 
 const answer = async (ctx) => {
   const [answer, questionId, userId] = ctx.match[2].split(':')

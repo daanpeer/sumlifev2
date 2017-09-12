@@ -7,7 +7,7 @@ const config = {
     RUN_ENV === 'local' ? './local.js' : './index.js'
   ],
 
-  devtool: 'source-map',
+  devtool: 'sourcemap',
   externals: [nodeExternals()],
   target: 'node',
   module: {
@@ -17,7 +17,7 @@ const config = {
       include: __dirname,
       exclude: /node_modules/
     }]
-  }
+  },
 }
 
 if (RUN_ENV === 'local') {
