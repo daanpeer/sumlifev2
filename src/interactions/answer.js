@@ -1,5 +1,5 @@
 import {
-  storeAnswer,
+  storeAnswerByToday,
   isAnsweredToday
 } from '../queries'
 
@@ -10,7 +10,7 @@ import {
 const answer = async (ctx) => {
   const [answer, questionId, userId] = ctx.match[2].split(':')
   if (!(await isAnsweredToday(questionId, userId))) {
-    await storeAnswer(questionId, answer, userId)
+    await storeAnswerByToday(userId, questionId, answer)
     await ctx.reply('I\'ve registered your answer')
     return ctx.reply(`You answered ${emoji[answer]}`)
   }

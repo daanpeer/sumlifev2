@@ -222,10 +222,15 @@ export const storeAnswerByQuestion = async ({ userId, questionId, date, answer }
     })
 }
 
+export const storeAnswerByToday = async (userId, questionId, answer) => {
+  const date = moment().format(DATE_FORMAT)
+  await storeAnswer({ userId, questionId, date, answer })
+}
+
 export const storeAnswer = async ({ userId, questionId, date, answer }) => {
   const args = { userId, questionId, date, answer }
-  storeAnswerByQuestion(args)
-  storeAnswerByDate(args)
+  await storeAnswerByQuestion(args)
+  await storeAnswerByDate(args)
   // storeAnswerByWeek(args)
   // storeAnswerByMonth()
 }
