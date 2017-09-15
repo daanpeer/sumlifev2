@@ -29,9 +29,9 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "NODE_ENV=development webpack",
+    "build": "RUN_ENV=development webpack",
     "build:watch": "npm run build -- --watch",
-    "start:dev": "npm run build && concurrently \"npm run build:watch\" \"NODE_ENV=development nodemon ./dist/build.js\"",
+    "start:dev": "npm run build && concurrently \"npm run build:watch\" \"RUN_ENV=development nodemon ./dist/build.js\"",
     "start": "npm run start:dev"
   },
   "repository": {
