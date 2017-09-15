@@ -1,10 +1,11 @@
 const path = require('path')
-const { RUN_ENV } = process.env
+const { NODE_ENV } = process.env
 const nodeExternals = require('webpack-node-externals')
+const webpack = require('webpack')
 
 const config = {
   entry: [
-    RUN_ENV === 'local' ? './local.js' : './index.js'
+    NODE_ENV === 'development' ? './local.js' : './index.js'
   ],
 
   devtool: 'sourcemap',
@@ -18,9 +19,14 @@ const config = {
       exclude: /node_modules/
     }]
   },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
+    })
+  ]
 }
 
-if (RUN_ENV === 'local') {
+if (NODE_ENV === 'development') {
   config.output = {
     filename: 'build.js',
     path: path.join(__dirname, './dist')
