@@ -5,7 +5,7 @@ const askScheduledQuestions = async (bot) => {
   try {
     const scheduledQuestions = await scheduler()
     for (const { userId, questionId, question } of scheduledQuestions) {
-      askQuestion(bot, questionId, userId, question)
+      await askQuestion(bot, questionId, userId, question)
     }
   } catch (e) {
     console.log(e.message)
