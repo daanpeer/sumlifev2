@@ -4,12 +4,9 @@ const nodeExternals = require('webpack-node-externals')
 const webpack = require('webpack')
 
 const plugins = []
-
-if (RUN_ENV === 'development') {
-  plugins.push(new webpack.DefinePlugin({
-    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
-  }))
-}
+plugins.push(new webpack.DefinePlugin({
+  'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
+}))
 
 const config = {
   entry: [
