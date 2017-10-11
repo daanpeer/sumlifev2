@@ -14,7 +14,7 @@ const config = {
   ],
 
   devtool: 'sourcemap',
-  externals: [nodeExternals()],
+  externals: [nodeExternals(), 'babel-runtime'],
   target: 'node',
   module: {
     rules: [{
