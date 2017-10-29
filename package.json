@@ -26,6 +26,7 @@
     "webpack-node-externals": "^1.6.0"
   },
   "scripts": {
+    "deploy": "serverless deploy",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "RUN_ENV=development webpack",
     "build:watch": "npm run build -- --watch",
