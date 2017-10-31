@@ -2,6 +2,9 @@ service: sumlife
 plugins:
   - serverless-webpack
 
+package:
+  individually: true
+
 custom:
   webpackIncludeModules: true
 
@@ -15,15 +18,15 @@ provider:
 
 functions:
   sumlife-set-webhook:
-    handler: index.setWebhook
+    handler: ./src/functions/setWebhook.setWebhook
     environment: ${file(./env.yml)}
   sumlife-ask-questions:
-    handler: index.askQuestions 
+    handler: ./src/functions/askQuestions.askQuestions
     environment: ${file(./env.yml)}
     events:
       - schedule: rate(30 minutes)
   sumlife-api:
-    handler: index.api
+    handler: ./src/functions/exportData.exportData
     environment: ${file(./env.yml)}
     events:
       - http:
@@ -34,7 +37,7 @@ functions:
               paths: 
                 token: true
   sumlife-webhook:
-    handler: index.webhook
+    handler: ./src/functions/webhook.webhook
     environment: ${file(./env.yml)}
     events:
       - http:

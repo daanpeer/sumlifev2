@@ -3,6 +3,7 @@ const { RUN_ENV } = process.env
 const nodeExternals = require('webpack-node-externals')
 const webpack = require('webpack')
 const MinifyPlugin = require('babel-minify-webpack-plugin')
+const slsw = require('serverless-webpack');
 
 const plugins = []
 plugins.push(new webpack.DefinePlugin({
@@ -11,9 +12,7 @@ plugins.push(new webpack.DefinePlugin({
 plugins.push(new MinifyPlugin())
 
 const config = {
-  entry: [
-    RUN_ENV === 'local' ? './local.js' : './index.js'
-  ],
+  entry: RUN_ENV === 'local' ? './local.js' : slsw.lib.entries,
 
   devtool: 'sourcemap',
   externals: [nodeExternals()],
