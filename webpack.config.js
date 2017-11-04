@@ -1,13 +1,14 @@
 const path = require('path')
-const { RUN_ENV } = process.env
+const { RUN_ENV, NODE_ENV } = process.env
 const nodeExternals = require('webpack-node-externals')
 const webpack = require('webpack')
 const MinifyPlugin = require('babel-minify-webpack-plugin')
-const slsw = require('serverless-webpack');
+const slsw = require('serverless-webpack')
 
 const plugins = []
 plugins.push(new webpack.DefinePlugin({
-  'process.env.RUN_ENV': JSON.stringify(RUN_ENV || 'local')
+  'process.env.RUN_ENV': JSON.stringify(RUN_ENV || 'local'),
+  'process.env.NODE_ENV': JSON.stringify(NODE_ENV || 'development'),
 }))
 plugins.push(new MinifyPlugin())
 
