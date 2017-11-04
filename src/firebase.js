@@ -1,7 +1,7 @@
 import admin from 'firebase-admin'
 
 let serviceAccount
-if (process.env.RUN_ENV === 'remote') {
+if (process.env.NODE_ENV === 'production') {
   serviceAccount = require('../firebase-credentials.prod.json')
 } else {
   serviceAccount = require('../firebase-credentials.dev.json')

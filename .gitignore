@@ -10,3 +10,6 @@ serverless-es7/
 .serverless
 firebase-credentials*
 !firebase-credentials.prod.json.enc
+env.prod.yml
+env.dev.yml
+env.test.yml
