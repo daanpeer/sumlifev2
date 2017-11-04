@@ -27,7 +27,7 @@
     "webpack-node-externals": "^1.6.0"
   },
   "scripts": {
-    "deploy": "RUN_ENV=remote serverless deploy --stage prod",
+    "deploy": "RUN_ENV=remote NODE_ENV=production serverless deploy --stage prod",
     "deploy:test": "RUN_ENV=remote NODE_ENV=development serverless deploy --stage test",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "RUN_ENV=local webpack",
