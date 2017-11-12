@@ -18,15 +18,15 @@ provider:
 
 functions:
   sumlife-set-webhook:
-    handler: handler.setWebhook
+    handler: setWebhook.default
     environment: ${file(./env.${opt:stage}.yml)}
   sumlife-ask-questions:
-    handler: handler.askQuestions
+    handler: askQuestions.default
     environment: ${file(./env.${opt:stage}.yml)}
     events:
       - schedule: rate(30 minutes)
   sumlife-api:
-    handler: handler.exportData
+    handler: api.default
     environment: ${file(./env.${opt:stage}.yml)}
     events:
       - http:
@@ -37,7 +37,7 @@ functions:
               paths: 
                 token: true
   sumlife-webhook:
-    handler: handler.webhook
+    handler: webhook.default
     environment: ${file(./env.${opt:stage}.yml)}
     events:
       - http:
