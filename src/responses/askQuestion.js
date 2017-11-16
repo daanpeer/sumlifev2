@@ -3,10 +3,10 @@ import { emoji } from '../answers'
 
 const askQuestion = async (ctx, questionId, userId, question, action = 'answer') => {
   const markup = new Markup()
-  const buttons = emoji.map((emoji, index) => {
+  const buttons = Object.keys(emoji).map((key) => {
     return markup.callbackButton(
-      emoji,
-      `${action}/${index}:${questionId}:${userId}`
+      emoji[key],
+      `${action}/${key}:${questionId}:${userId}`
     )
   })
 
