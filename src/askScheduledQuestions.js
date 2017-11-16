@@ -1,15 +1,14 @@
 import scheduler from './scheduler'
 import { askQuestion } from './responses'
 
-const askScheduledQuestions = async (bot) => {
-  try {
-    const scheduledQuestions = await scheduler()
-    for (const { userId, questionId, question } of scheduledQuestions) {
-      await askQuestion(bot, questionId, userId, question)
-    }
-  } catch (e) {
-    console.log(e.message)
-  }
-}
+const askScheduledQuestions = (bot) => scheduler()
+  .then((scheduledQuestions) => {
+    scheduledQuestions.forEach(({ userId, questionId, question }) => {
+      askQuestion(bot, questionId, userId, question)
+    })
+  })
+  .catch((error) => {
+    console.log('error ', error)
+  })
 
 export default askScheduledQuestions

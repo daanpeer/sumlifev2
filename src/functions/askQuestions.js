@@ -1,11 +1,10 @@
 import askScheduledQuestions from '../askScheduledQuestions'
 
-const askQuestions = (bot) => async function (event, context, callback) {
+const askQuestions = (bot) => (event, context, callback) => {
   context.callbackWaitsForEmptyEventLoop = false
 
-  await askScheduledQuestions(bot)
-
-  callback(null, 'Done!')
+  askScheduledQuestions(bot)
+    .then(() => callback(null, 'Done!'))
 }
 
 export default askQuestions

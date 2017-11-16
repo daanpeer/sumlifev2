@@ -65,6 +65,17 @@ export const isAnsweredToday = async (questionId, userId) => {
   return !!answer
 }
 
+export const getAskedQuestionsByDate = async (userId, date) => {
+  const answers = await database.ref(`questionAskedToUser/${userId}/${date}`).once('value')
+  if (answers === null) {
+    return null
+  }
+  return answers.val()
+}
+
+export const getTodaysAskedQuestions = async (userId, questionId) =>
+  getAskedQuestionsByDate(userId, moment().format(DATE_FORMAT))
+
 export const addQuestionByUser = async (userId, question, hours, minutes) => {
   const key = crypto.createHash('md5').update(question).digest('hex')
 
