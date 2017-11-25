@@ -28,6 +28,9 @@ const exportData = () => async (event, context, callback) => {
 
   const userData = await exportUserData(userId)
   return callback(null, {
+    headers: {
+      'Access-Control-Allow-Origin': '*'
+    },
     statusCode: 200,
     body: JSON.stringify(userData)
   })
