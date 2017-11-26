@@ -8,7 +8,7 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const plugins = []
 plugins.push(new webpack.DefinePlugin({
   'process.env.RUN_ENV': JSON.stringify(RUN_ENV || 'local'),
-  'process.env.NODE_ENV': JSON.stringify(NODE_ENV || 'development')
+  'process.env.NODE_ENV': JSON.stringify(NODE_ENV || 'development'),
 }))
 plugins.push(new UglifyJSPlugin())
 

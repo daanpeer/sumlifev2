@@ -9,6 +9,8 @@ import questionActions from './questionActions'
 import start from './start'
 import cancel from './cancel'
 import showApiUrl from './showApiUrl'
+import showGraph from './showGraph'
+import showGraphForQuestion from './showGraphForQuestion'
 
 export {
   listQuestions,
@@ -21,5 +23,7 @@ export {
   deleteQuestion,
   deleteConfirm,
   cancel,
-  showApiUrl
+  showApiUrl,
+  showGraph,
+  showGraphForQuestion
 }
