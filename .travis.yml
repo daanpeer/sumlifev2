@@ -8,6 +8,7 @@ before_script:
 - sed -i "s#\$BOT_TOKEN#$BOT_TOKEN#g" env.prod.yml
 - sed -i "s#\$BOT_WEBHOOK_URL#$BOT_WEBHOOK_URL#g" env.prod.yml
 - sed -i "s#\$API_URL#$API_URL#g" env.prod.yml
+- sed -i "s#\$INTERFACE_URL#$INTERFACE_URL#g" env.prod.yml
 script:
 - npm run deploy
 cache:

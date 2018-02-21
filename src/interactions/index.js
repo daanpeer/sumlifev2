@@ -11,6 +11,7 @@ import cancel from './cancel'
 import showApiUrl from './showApiUrl'
 import showGraph from './showGraph'
 import showGraphForQuestion from './showGraphForQuestion'
+import showInterfaceUrl from './showInterfaceUrl'
 
 export {
   listQuestions,
@@ -25,5 +26,6 @@ export {
   cancel,
   showApiUrl,
   showGraph,
-  showGraphForQuestion
+  showGraphForQuestion,
+  showInterfaceUrl
 }

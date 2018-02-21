@@ -15,7 +15,8 @@ import {
   cancel,
   showApiUrl,
   showGraph,
-  showGraphForQuestion
+  showGraphForQuestion,
+  showInterfaceUrl
 } from './interactions'
 
 import { timedReply } from './middleware'
@@ -36,6 +37,7 @@ bot.command('cancel', cancel)
 bot.command('introduction', start, listQuestions)
 bot.command('start', start, listQuestions)
 bot.command('graph', showGraph)
+bot.command('interface', showInterfaceUrl)
 bot.command('show_api_url', showApiUrl)
 bot.command('l33t', async ({ reply, from }) => {
   await reply(from.id)
