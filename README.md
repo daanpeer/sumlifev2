@@ -16,3 +16,4 @@ cancel - Cancel command
 start - Start
 introduction - Show the introduction again
 show_api_url - Generate an API endpoint
+interface - Show the interface
