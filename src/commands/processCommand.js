@@ -5,6 +5,7 @@ import {
 import addQuestion from './addQuestion'
 import editQuestion from './editQuestion'
 import editTime from './editTime'
+import storeOpenAnswer from './storeOpenAnswer'
 
 export const processCommand = async (ctx, next) => {
   if (!ctx.command) {
@@ -16,6 +17,8 @@ export const processCommand = async (ctx, next) => {
       return editQuestion(ctx.command['editQuestion'], ctx, next)
     case 'addQuestion':
       return addQuestion(ctx.command['addQuestion'], ctx, next)
+    case 'answerQuestion':
+      return storeOpenAnswer(ctx.command['answerQuestion'], ctx, next);
     case 'editTime':
       return editTime(ctx.command['editTime'], ctx, next)
     default:
