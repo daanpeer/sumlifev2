@@ -33,7 +33,8 @@
     "build": "RUN_ENV=local webpack",
     "build:watch": "npm run build -- --watch",
     "start:dev": "npm run build && concurrently \"npm run build:watch\" \"RUN_ENV=development nodemon ./dist/build.js\"",
-    "start": "npm run start:dev"
+    "start": "npm run start:dev",
+    "debug": "concurrently \"npm run build:watch\" \"RUN_ENV=development nodemon --inspect ./dist/build.js\""
   },
   "repository": {
     "type": "git",

@@ -32,7 +32,8 @@ const getTodayAskedQuestions = async (users) => {
 }
 
 const isWithinTime = (hours, minutes) => {
-  const schedule = moment().utc()
+  const schedule = moment()
+    .utc()
     .hours(hours)
     .minutes(minutes)
 
@@ -47,7 +48,7 @@ const isWithinTime = (hours, minutes) => {
   return false
 }
 
-const schedule = (questionsByUser, askedQuestionsByUser) => {
+const schedule = async (questionsByUser, askedQuestionsByUser) => {
   const scheduled = []
   const askedToday = []
 
@@ -61,7 +62,8 @@ const schedule = (questionsByUser, askedQuestionsByUser) => {
     const questionIds = Object.keys(questionsByUser[userId])
     for (let questionIndex = 0; questionIndex < questionIds.length; questionIndex++) {
       const questionId = questionIds[questionIndex]
-      const { hours, minutes } = questionsByUser[userId][questionId]
+      const questionByUser = questionsByUser[userId][questionId]
+      const { hours, minutes } = questionByUser
 
       const askedQuestion = askedQuestions[questionId]
       if (askedQuestion) {
@@ -70,16 +72,19 @@ const schedule = (questionsByUser, askedQuestionsByUser) => {
 
       if (isWithinTime(hours, minutes)) {
         askedToday.push(storeAskedToday(questionId, userId))
-        scheduled.push({ userId, questionId })
+        const type = questionByUser.type || null
+        scheduled.push({ userId, questionId, type })
       }
     }
   }
-  return Promise.all(askedToday)
+
+  await Promise.all(askedToday)
+  return scheduled
 }
 
 const scheduler = async () => {
   const userIds = await getUsers()
-  const [userQuestions, askedQuestions] = Promise.all([
+  const [userQuestions, askedQuestions] = await Promise.all([
     getUserQuestions(userIds),
     getTodayAskedQuestions(userIds)
   ])

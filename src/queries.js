@@ -73,10 +73,10 @@ export const getAskedQuestionsByDate = async (userId, date) => {
   return answers.val()
 }
 
-export const getTodaysAskedQuestions = async (userId, questionId) =>
+export const getTodaysAskedQuestions = async (userId, questionId, type) =>
   getAskedQuestionsByDate(userId, moment().format(DATE_FORMAT))
 
-export const addQuestionByUser = async (userId, question, hours, minutes) => {
+export const addQuestionByUser = async (userId, question, hours, minutes, type) => {
   const key = crypto.createHash('md5').update(question).digest('hex')
 
   database.ref(`questions`)
@@ -85,7 +85,8 @@ export const addQuestionByUser = async (userId, question, hours, minutes) => {
   database.ref(`questionsByUser/${userId}`)
     .update({ [key]: {
       hours,
-      minutes
+      minutes,
+      type
     } })
 
   // make sure that the question isn't asked when the time lies in the past
