@@ -7,35 +7,29 @@ import {
   getQuestion
 } from './queries'
 
-const getUserQuestions = (users) =>
-  new Promise((resolve, reject) => {
-    const promises = []
-    for (let index = 0; index < users.length; index++) {
-      const userId = users[index]
-      promises.push(getQuestionsByUser(userId))
-    }
+const getUserQuestions = async (users) => {
+  const promises = []
+  for (let index = 0; index < users.length; index++) {
+    const userId = users[index]
+    promises.push(getQuestionsByUser(userId))
+  }
 
-    return Promise.all(promises)
-      .then(results => {
-        resolve(results.reduce((acc, curr, index) =>
-          ({ ...acc, [users[index]]: { ...curr } }), {}))
-      })
-  })
+  const results = await Promise.all(promises)
+  return results.reduce((acc, curr, index) =>
+    ({ ...acc, [users[index]]: { ...curr } }), {})
+}
 
-const getTodayAskedQuestions = (users) =>
-  new Promise((resolve, reject) => {
-    const promises = []
-    for (let index = 0; index < users.length; index++) {
-      const userId = users[index]
-      promises.push(getTodaysAskedQuestions(userId))
-    }
+const getTodayAskedQuestions = async (users) => {
+  const promises = []
+  for (let index = 0; index < users.length; index++) {
+    const userId = users[index]
+    promises.push(getTodaysAskedQuestions(userId))
+  }
 
-    return Promise.all(promises)
-      .then(results => {
-        resolve(results.reduce((acc, curr, index) =>
-          ({ ...acc, [users[index]]: { ...curr } }), {}))
-      })
-  })
+  const results = await Promise.all(promises)
+  return results.reduce((acc, curr, index) =>
+    ({ ...acc, [users[index]]: { ...curr } }), {})
+}
 
 const isWithinTime = (hours, minutes) => {
   const schedule = moment().utc()
@@ -53,60 +47,54 @@ const isWithinTime = (hours, minutes) => {
   return false
 }
 
-const schedule = (questionsByUser, askedQuestionsByUser) =>
-  new Promise((resolve, reject) => {
-    const scheduled = []
-    const askedToday = []
+const schedule = (questionsByUser, askedQuestionsByUser) => {
+  const scheduled = []
+  const askedToday = []
 
-    // first filter the questions which are already asked
-    const userIds = Object.keys(questionsByUser)
-    for (let userIndex = 0; userIndex < userIds.length; userIndex++) {
-      const userId = userIds[userIndex]
+  // first filter the questions which are already asked
+  const userIds = Object.keys(questionsByUser)
+  for (let userIndex = 0; userIndex < userIds.length; userIndex++) {
+    const userId = userIds[userIndex]
 
-      const askedQuestions = askedQuestionsByUser[userId]
+    const askedQuestions = askedQuestionsByUser[userId]
 
-      const questionIds = Object.keys(questionsByUser[userId])
-      for (let questionIndex = 0; questionIndex < questionIds.length; questionIndex++) {
-        const questionId = questionIds[questionIndex]
-        const { hours, minutes } = questionsByUser[userId][questionId]
+    const questionIds = Object.keys(questionsByUser[userId])
+    for (let questionIndex = 0; questionIndex < questionIds.length; questionIndex++) {
+      const questionId = questionIds[questionIndex]
+      const { hours, minutes } = questionsByUser[userId][questionId]
 
-        const askedQuestion = askedQuestions[questionId]
-        if (askedQuestion) {
-          continue
-        }
+      const askedQuestion = askedQuestions[questionId]
+      if (askedQuestion) {
+        continue
+      }
 
-        if (isWithinTime(hours, minutes)) {
-          askedToday.push(storeAskedToday(questionId, userId))
-          scheduled.push({ userId, questionId })
-        }
+      if (isWithinTime(hours, minutes)) {
+        askedToday.push(storeAskedToday(questionId, userId))
+        scheduled.push({ userId, questionId })
       }
     }
+  }
+  return Promise.all(askedToday)
+}
 
-    return Promise.all(askedToday)
-      .then(resolve(scheduled))
+const scheduler = async () => {
+  const userIds = await getUsers()
+  const [userQuestions, askedQuestions] = Promise.all([
+    getUserQuestions(userIds),
+    getTodayAskedQuestions(userIds)
+  ])
+
+  const scheduled = await schedule(userQuestions, askedQuestions)
+
+  // fetch the questions themselves
+  const promises = []
+  scheduled.forEach(({ questionId }) => {
+    promises.push(getQuestion(questionId))
   })
 
-const scheduler = () =>
-  new Promise((resolve, reject) =>
-    getUsers()
-      .then((userIds) => Promise.all([
-        getUserQuestions(userIds),
-        getTodayAskedQuestions(userIds)
-      ]))
-      .then(([questions, askedQuestions]) =>
-        schedule(questions, askedQuestions))
-      .then((scheduled) => {
-        // fetch the questions themselves
-        const promises = []
-        scheduled.forEach(({ questionId }) => {
-          promises.push(getQuestion(questionId))
-        })
-
-        return Promise.all(promises)
-          .then((questions) => questions.reduce((acc, curr, index) =>
-            [ ...acc, { ...scheduled[index], question: curr } ], []))
-      })
-      .then((questions) => resolve(questions))
-  )
+  const questions = await Promise.all(promises)
+  return questions.reduce((acc, curr, index) =>
+      [ ...acc, { ...scheduled[index], question: curr } ], [])
+}
 
 export default scheduler
