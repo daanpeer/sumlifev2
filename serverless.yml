@@ -6,7 +6,10 @@ package:
   individually: true
 
 custom:
-  webpackIncludeModules: true
+  webpack:
+    webpackConfig: 'webpack.config.js'
+    webpackIncludeModules: true
+    packExternalModulesMaxBuffer: 200 * 1024
 
 provider:
   name: aws
