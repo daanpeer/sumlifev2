@@ -47,6 +47,7 @@
   },
   "homepage": "https://github.com/daanpeer/sumlifev2#readme",
   "devDependencies": {
-    "uglifyjs-webpack-plugin": "^1.0.1"
+    "uglifyjs-webpack-plugin": "^1.0.1",
+    "webpack-cli": "^2.0.11"
   }
 }

@@ -3,7 +3,6 @@ const { RUN_ENV, NODE_ENV } = process.env
 const nodeExternals = require('webpack-node-externals')
 const webpack = require('webpack')
 const slsw = require('serverless-webpack')
-// const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 
 const plugins = []
 plugins.push(new webpack.DefinePlugin({
@@ -13,7 +12,7 @@ plugins.push(new webpack.DefinePlugin({
 
 const config = {
   entry: RUN_ENV === 'local' ? './local.js' : slsw.lib.entries,
-  mode: NODE_ENV,
+  mode: NODE_ENV || 'production',
   optimization: {
     minimize: false
   },
