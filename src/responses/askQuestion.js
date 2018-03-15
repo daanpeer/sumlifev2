@@ -2,23 +2,22 @@ import { Markup } from 'telegraf'
 import { emoji } from '../answers'
 import {
   QUESTION_TYPE_OPEN
-} from '../commands/addQuestion'
+} from '../config'
 
-import {
-  storeCommandState
-} from '../queries'
+const askOpenQuestion = ({ ctx, userId, questionId, question }) => {
+  const markup = new Markup()
+  return ctx.telegram.sendMessage(
+    userId,
+    `"${question}"`,
+    markup.inlineKeyboard([
+      markup.callbackButton('📝 Answer 📝', `answerOpenQuestion/${questionId}:${userId}`)
+    ])
+      .resize()
+      .extra()
+  )
+}
 
-const askQuestion = async (ctx, questionId, userId, question, action = 'answer', type) => {
-  if (type && type === QUESTION_TYPE_OPEN) {
-    await ctx.telegram.sendMessage(userId, 'This is an open question, please reply with your answer 🙌')
-    await ctx.telegram.sendMessage(userId, question)
-    await storeCommandState(userId, 'answerQuestion', {
-      step: 1,
-      questionId
-    })
-    return
-  }
-
+const askEmojiQuestion = ({ ctx, userId, questionId, question, action }) => {
   const markup = new Markup()
   const buttons = Object.keys(emoji).map((key) => {
     return markup.callbackButton(
@@ -27,9 +26,16 @@ const askQuestion = async (ctx, questionId, userId, question, action = 'answer',
     )
   })
 
-  await ctx.telegram.sendMessage(userId, question,
+  return ctx.telegram.sendMessage(userId, question,
     markup.inlineKeyboard(buttons).extra()
   )
+}
+
+const askQuestion = async (ctx, questionId, userId, question, action = 'answer', type) => {
+  if (type && type === QUESTION_TYPE_OPEN) {
+    return askOpenQuestion({ ctx, userId, questionId, question })
+  }
+  return askEmojiQuestion({ ctx, userId, questionId, question, action })
 }
 
 export default askQuestion

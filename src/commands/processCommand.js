@@ -6,6 +6,7 @@ import addQuestion from './addQuestion'
 import editQuestion from './editQuestion'
 import editTime from './editTime'
 import storeOpenAnswer from './storeOpenAnswer'
+import answerOpenQuestion from './answerOpenQuestion';
 
 export const processCommand = async (ctx, next) => {
   if (!ctx.command) {
@@ -13,12 +14,14 @@ export const processCommand = async (ctx, next) => {
   }
 
   switch (Object.keys(ctx.command)[0]) {
+    case 'answerOpenQuestion':
+      return answerOpenQuestion(ctx.command['answerOpenQuestion'], ctx, next)
     case 'editQuestion':
       return editQuestion(ctx.command['editQuestion'], ctx, next)
     case 'addQuestion':
       return addQuestion(ctx.command['addQuestion'], ctx, next)
     case 'answerQuestion':
-      return storeOpenAnswer(ctx.command['answerQuestion'], ctx, next);
+      return storeOpenAnswer(ctx.command['answerQuestion'], ctx, next)
     case 'editTime':
       return editTime(ctx.command['editTime'], ctx, next)
     default:

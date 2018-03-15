@@ -14,9 +14,9 @@ import {
   start,
   cancel,
   showApiUrl,
-  showGraph,
-  showGraphForQuestion,
-  showInterfaceUrl
+  showInterfaceUrl,
+  setQuestionType,
+  answerOpenQuestion
 } from './interactions'
 
 import { timedReply } from './middleware'
@@ -29,14 +29,14 @@ bot.action(/(deleteConfirm)\/(.+)/, deleteConfirm, listQuestions)
 bot.action(/(deleteQuestion)\/(.+)/, deleteQuestion)
 bot.action(/(editTime)\/(.+)/, editTime)
 bot.action(/(questionActions)\/(.+)/, questionActions)
-bot.action(/(showGraphForQuestion)\/(.+)/, showGraphForQuestion)
+bot.action(/(setQuestionType)\/(.+)/, setQuestionType)
+bot.action(/(answerOpenQuestion)\/(.+)/, answerOpenQuestion)
 bot.action(/addQuestion/, addQuestion)
 bot.command('list_questions', listQuestions)
 bot.command('add_question', addQuestion)
 bot.command('cancel', cancel)
 bot.command('introduction', start, listQuestions)
 bot.command('start', start, listQuestions)
-bot.command('graph', showGraph)
 bot.command('interface', showInterfaceUrl)
 bot.command('show_api_url', showApiUrl)
 bot.command('l33t', async ({ reply, from }) => {

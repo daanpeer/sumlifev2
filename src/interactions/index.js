@@ -12,6 +12,8 @@ import showApiUrl from './showApiUrl'
 import showGraph from './showGraph'
 import showGraphForQuestion from './showGraphForQuestion'
 import showInterfaceUrl from './showInterfaceUrl'
+import setQuestionType from './setQuestionType'
+import answerOpenQuestion from './answerOpenQuestion'
 
 export {
   listQuestions,
@@ -27,5 +29,7 @@ export {
   showApiUrl,
   showGraph,
   showGraphForQuestion,
-  showInterfaceUrl
+  showInterfaceUrl,
+  setQuestionType,
+  answerOpenQuestion
 }
