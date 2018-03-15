@@ -1,10 +1,6 @@
-import {
-  addUser
-} from '../queries'
+import { addUser } from '../queries'
 
-import {
-  askQuestion
-} from '../responses'
+import { askQuestion } from '../responses'
 
 const start = async (ctx, next) => {
   addUser(ctx.from.id)
@@ -13,7 +9,7 @@ const start = async (ctx, next) => {
   await ctx.timedReply('I can ask you questions on a specified time of day')
   await ctx.timedReply('They look like this: ')
   await askQuestion(ctx, null, ctx.from.id, 'How do you feel today?', 'example')
-  await ctx.timedReply('I\'ll store your answers and give you a weekly digest')
+  await ctx.timedReply("I'll store your answers and give you a weekly digest")
   await ctx.timedReply('Have fun! :)')
   return next()
 }

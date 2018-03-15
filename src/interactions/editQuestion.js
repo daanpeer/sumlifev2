@@ -1,6 +1,4 @@
-import {
-  storeCommandState
-} from '../queries'
+import { storeCommandState } from '../queries'
 
 const editQuestions = async (ctx, next) => {
   const questionId = ctx.match[2]

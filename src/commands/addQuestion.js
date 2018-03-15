@@ -1,8 +1,4 @@
-import {
-  storeCommandState,
-  addQuestionByUser,
-  clearCommandState
-} from '../queries'
+import { storeCommandState, addQuestionByUser, clearCommandState } from '../queries'
 
 const addQuestion = async (cmd, ctx, next) => {
   const message = ctx.message.text
@@ -13,7 +9,7 @@ const addQuestion = async (cmd, ctx, next) => {
         step: 2,
         question: message
       })
-      await ctx.reply('Okay I\'ve registered your question 🍻')
+      await ctx.reply("Okay I've registered your question 🍻")
       await ctx.reply('Now please give me a time in 24 hour format (12:00)')
       return next()
     }
@@ -22,20 +18,13 @@ const addQuestion = async (cmd, ctx, next) => {
       if (!regex.test(message)) {
         return ctx.reply('Please give a valid 24 hour format time')
       }
-
-      const [ hours, minutes ] = message.split(':')
+      const [hours, minutes] = message.split(':')
       if (!hours || !minutes || hours > 24 || hours < 0 || minutes > 59 || minutes < 0) {
         return ctx.reply('Please give a valid 24 hour format time')
       }
-
-      const {
-        question,
-        type
-      } = cmd.state
-
+      const { question, type } = cmd.state
       await addQuestionByUser(ctx.from.id, question, hours, minutes, type)
       await ctx.reply('Your question has been stored successfully :)')
-
       await clearCommandState()
       return next()
     }
@@ -43,5 +32,4 @@ const addQuestion = async (cmd, ctx, next) => {
       return next()
   }
 }
-
 export default addQuestion

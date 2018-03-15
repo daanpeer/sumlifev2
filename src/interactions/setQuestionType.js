@@ -1,6 +1,4 @@
-import {
-  storeCommandState
-} from '../queries'
+import { storeCommandState } from '../queries'
 
 const addQuestion = async ({ from, reply, match }) => {
   await storeCommandState(from.id, 'addQuestion', { type: match[2], step: 1 })

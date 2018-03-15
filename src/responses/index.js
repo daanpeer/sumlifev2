@@ -1,5 +1,3 @@
 import askQuestion from './askQuestion'
 
-export {
-  askQuestion
-}
+export { askQuestion }

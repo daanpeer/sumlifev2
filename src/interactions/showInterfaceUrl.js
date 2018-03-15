@@ -1,19 +1,12 @@
-import {
-  getActiveTokenByUser,
-  storeTokenForUser
-} from '../queries'
+import { getActiveTokenByUser, storeTokenForUser } from '../queries'
 
 import crypto from 'crypto'
 
-const showApiUrl = async ({
-  reply,
-  from: {
-    id
-  }
-}) => {
+const showApiUrl = async ({ reply, from: { id } }) => {
   let token = await getActiveTokenByUser(id)
   if (!token) {
-    token = crypto.createHash('sha256')
+    token = crypto
+      .createHash('sha256')
       .update(Math.random().toString())
       .digest('hex')
 

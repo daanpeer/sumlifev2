@@ -7,5 +7,4 @@ const answers = {
   '4': '🙂',
   '5': '😄'
 }
-
 export default answers

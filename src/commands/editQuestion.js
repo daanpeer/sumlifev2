@@ -1,7 +1,4 @@
-import {
-  clearCommandState,
-  updateQuestion
-} from '../queries'
+import { clearCommandState, updateQuestion } from '../queries'
 
 const editQuestion = async (cmd, ctx, next) => {
   const message = ctx.message.text
@@ -11,7 +8,7 @@ const editQuestion = async (cmd, ctx, next) => {
 
       try {
         await updateQuestion(ctx.from.id, cmd.state.questionId, message)
-        await ctx.reply('Okay i\'ve updated your question!')
+        await ctx.reply("Okay i've updated your question!")
       } catch (e) {
         console.log('error', e)
       }

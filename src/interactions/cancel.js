@@ -1,7 +1,4 @@
-
-import {
-  clearCommandState
-} from '../queries'
+import { clearCommandState } from '../queries'
 
 const cancel = async ({ from, reply }) => {
   await clearCommandState(from.id)

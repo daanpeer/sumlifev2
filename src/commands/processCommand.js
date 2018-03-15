@@ -1,12 +1,10 @@
-import {
-  getCommandState
-} from '../queries'
+import { getCommandState } from '../queries'
 
 import addQuestion from './addQuestion'
 import editQuestion from './editQuestion'
 import editTime from './editTime'
 import storeOpenAnswer from './storeOpenAnswer'
-import answerOpenQuestion from './answerOpenQuestion';
+import answerOpenQuestion from './answerOpenQuestion'
 
 export const processCommand = async (ctx, next) => {
   if (!ctx.command) {

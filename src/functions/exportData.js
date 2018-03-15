@@ -1,7 +1,4 @@
-import {
-  getUserIdByToken,
-  exportUserData
-} from '../queries'
+import { getUserIdByToken, exportUserData } from '../queries'
 
 const exportData = () => async (event, context, callback) => {
   context.callbackWaitsForEmptyEventLoop = false

@@ -1,9 +1,4 @@
-import {
-  askQuestions as aq,
-  webhook as wh,
-  setwebhook as swh,
-  exportData
-} from './src/functions'
+import { askQuestions as aq, webhook as wh, setwebhook as swh, exportData } from './src/functions'
 
 import bot from './src/bot'
 

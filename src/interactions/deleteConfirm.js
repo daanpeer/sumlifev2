@@ -1,6 +1,4 @@
-import {
-  removeQuestionByUser
-} from '../queries'
+import { removeQuestionByUser } from '../queries'
 
 const deleteConfirm = async (ctx, next) => {
   const questionId = ctx.match[2]

@@ -1,11 +1,10 @@
-import {
-  storeToken
-} from '../queries'
+import { storeToken } from '../queries'
 
 import crypto from 'crypto'
 
-const showApiUrl = async (ctx) => {
-  const hash = crypto.createHash('sha256')
+const showApiUrl = async ctx => {
+  const hash = crypto
+    .createHash('sha256')
     .update(Math.random().toString())
     .digest('hex')
 

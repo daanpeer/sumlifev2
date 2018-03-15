@@ -1,7 +1,4 @@
-import {
-  clearCommandState,
-  storeAnswerByToday
-} from '../queries'
+import { clearCommandState, storeAnswerByToday } from '../queries'
 
 const storeOpenAnswer = async (cmd, ctx, next) => {
   const message = ctx.message.text
@@ -15,12 +12,10 @@ const storeOpenAnswer = async (cmd, ctx, next) => {
       } catch (e) {
         console.log('error', e)
       }
-
       return next()
     }
     default:
       return next()
   }
 }
-
 export default storeOpenAnswer

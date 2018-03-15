@@ -7,7 +7,7 @@ import {
   getQuestion
 } from './queries'
 
-const getUserQuestions = async (users) => {
+const getUserQuestions = async users => {
   const promises = []
   for (let index = 0; index < users.length; index++) {
     const userId = users[index]
@@ -15,11 +15,10 @@ const getUserQuestions = async (users) => {
   }
 
   const results = await Promise.all(promises)
-  return results.reduce((acc, curr, index) =>
-    ({ ...acc, [users[index]]: { ...curr } }), {})
+  return results.reduce((acc, curr, index) => ({ ...acc, [users[index]]: { ...curr } }), {})
 }
 
-const getTodayAskedQuestions = async (users) => {
+const getTodayAskedQuestions = async users => {
   const promises = []
   for (let index = 0; index < users.length; index++) {
     const userId = users[index]
@@ -27,8 +26,7 @@ const getTodayAskedQuestions = async (users) => {
   }
 
   const results = await Promise.all(promises)
-  return results.reduce((acc, curr, index) =>
-    ({ ...acc, [users[index]]: { ...curr } }), {})
+  return results.reduce((acc, curr, index) => ({ ...acc, [users[index]]: { ...curr } }), {})
 }
 
 const isWithinTime = (hours, minutes) => {
@@ -98,8 +96,10 @@ const scheduler = async () => {
   })
 
   const questions = await Promise.all(promises)
-  return questions.reduce((acc, curr, index) =>
-      [ ...acc, { ...scheduled[index], question: curr } ], [])
+  return questions.reduce(
+    (acc, curr, index) => [...acc, { ...scheduled[index], question: curr }],
+    []
+  )
 }
 
 export default scheduler
