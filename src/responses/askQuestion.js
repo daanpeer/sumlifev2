@@ -6,7 +6,7 @@ const askOpenQuestion = ({ ctx, userId, questionId, question }) => {
   const markup = new Markup()
   return ctx.telegram.sendMessage(
     userId,
-    `"${question}"`,
+    `${question}`,
     markup
       .inlineKeyboard([
         markup.callbackButton('📝 Answer 📝', `answerOpenQuestion/${questionId}:${userId}`)
