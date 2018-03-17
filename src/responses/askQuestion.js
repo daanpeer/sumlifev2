@@ -22,7 +22,7 @@ const askEmojiQuestion = ({ ctx, userId, questionId, question, action }) => {
   })
   return ctx.telegram.sendMessage(userId, question, markup.inlineKeyboard(buttons).extra())
 }
-const askQuestion = async (ctx, questionId, userId, question, action = 'answer', type) => {
+const askQuestion = async ({ ctx, questionId, userId, question, action = 'answer', type }) => {
   if (type && type === QUESTION_TYPE_OPEN) {
     return askOpenQuestion({ ctx, userId, questionId, question })
   }
