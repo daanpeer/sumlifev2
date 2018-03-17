@@ -9,7 +9,7 @@ const askOpenQuestion = ({ ctx, userId, questionId, question }) => {
     `${question}`,
     markup
       .inlineKeyboard([
-        markup.callbackButton('📝 Answer 📝', `answerOpenQuestion/${questionId}:${userId}`)
+        markup.callbackButton('📝 Answer 📝', `openQuestion/${questionId}:${userId}`)
       ])
       .resize()
       .extra()
